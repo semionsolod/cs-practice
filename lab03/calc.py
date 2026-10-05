@@ -1,7 +1,11 @@
 def add(a, b):
     return a + b
 
+def sub(a, b):
+    return a - b
+
 if __name__ == "__main__":
     num1 = float(input("Введите первое число: "))
     num2 = float(input("Введите второе число: "))
     print(f"Результат: {add(num1, num2)}")
+    print(f"Вычитание: {sub(num1, num2)}")
