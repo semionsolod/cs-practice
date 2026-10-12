@@ -4,7 +4,9 @@ def parse_record(line: str) -> dict:
     if len(p) != 3:
         raise ValueError(f"Полей не ровно три, их {len(p)}")
     
-    city, temp_str, date = p
+    city = p[0].strip()
+    temp_str = p[1].strip()
+    date = p[2].strip()
     
     if not city or not date:
         raise ValueError("Город или дата пустые")
