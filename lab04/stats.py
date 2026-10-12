@@ -10,7 +10,7 @@ def parse_record(line: str) -> dict:
         raise ValueError("Город или дата пустые")
     
     try:
-        temp = float(temp_str)
+        temp = float(temp_str.replace(",","."))
     except ValueError:
         raise ValueError(f"Температура '{temp_str}' не число")
     
@@ -20,9 +20,8 @@ def parse_record(line: str) -> dict:
         "date": date
     }
 
-def read_valid(lines: list[str]) -> tuple[list[dict], int]:
+def read_valid(lines: list[str]) -> list[dict]:
     valid_records = []
-    skipped = 0
 
     for line in lines:
         if not line.strip():
@@ -32,9 +31,9 @@ def read_valid(lines: list[str]) -> tuple[list[dict], int]:
             record = parse_record(line)
             valid_records.append(record)
         except ValueError:
-            skipped += 1
+            continue
 
-    return valid_records, skipped
+    return valid_records
 
 def average_by_city(records: list[dict]) -> dict:
     totals = {}

@@ -5,8 +5,10 @@ from stats import read_valid, average_by_city, warmest_city
 def main():
     data = sys.stdin.read().splitlines()
     
-    records, skipped_count = read_valid(data)
-    
+    records = read_valid(data)
+    non_empty = [line for line in data if line.strip()]
+    skipped_count = len(non_empty) - len(records)
+
     if records:
         best_city = warmest_city(records)
         averages = average_by_city(records)
