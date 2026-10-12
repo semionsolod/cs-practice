@@ -5,9 +5,7 @@ from stats import read_valid, average_by_city, warmest_city
 def main():
     data = sys.stdin.read().splitlines()
     
-    records = read_valid(data)
-    
-    skipped_count = len(data) - len(records)
+    records, skipped_count = read_valid(data)
     
     if records:
         best_city = warmest_city(records)
@@ -18,7 +16,7 @@ def main():
     
     print(len(records))
     print(skipped_count)
-    print(best_temp)
+    print(f"{best_temp:.1f}")
 
 if __name__ == "__main__":
     main()

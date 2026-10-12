@@ -20,19 +20,21 @@ def parse_record(line: str) -> dict:
         "date": date
     }
 
-def read_valid(lines: list[str]) -> list[dict]:
+def read_valid(lines: list[str]) -> tuple[list[dict], int]:
     valid_records = []
+    skipped = 0
+
     for line in lines:
         if not line.strip():
             continue
-        
+
         try:
             record = parse_record(line)
             valid_records.append(record)
         except ValueError:
-            continue
-            
-    return valid_records
+            skipped += 1
+
+    return valid_records, skipped
 
 def average_by_city(records: list[dict]) -> dict:
     totals = {}
