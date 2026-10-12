@@ -8,6 +8,8 @@ def mul(a, b):
     return a * b
 
 def div(a, b):
+    if b == 0:
+        return "Ошибка: деление на ноль"
     return a / b
 if __name__ == "__main__":
     num1 = float(input("Введите первое число: "))
