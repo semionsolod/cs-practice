@@ -24,3 +24,15 @@ def top_errors(lines, n):
             msg = event['message']
             errors[msg] = errors.get(msg, 0) + 1
     return sorted(errors.items(), key=lambda item: (-item[1], item[0]))[:n]
+def format_report(counts, errors):
+    lines = ["Отчёт по журналу:"]
+    for level in sorted(counts):
+        lines.append(f"{level}: {counts[level]}")
+    lines.append("")
+    lines.append("Частые ошибки:")
+    if not errors:
+        lines.append("-")      
+    else:
+        for msg, cnt in errors:
+            lines.append(f"- {msg} — {cnt}")
+    return "\n".join(lines) + "\n"
