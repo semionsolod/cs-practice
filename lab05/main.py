@@ -1,3 +1,4 @@
+import sys
 from logstats import count_levels, top_errors, format_report
 
 def main():
@@ -8,7 +9,8 @@ def main():
     all_errors = top_errors(lines, n=10**9)   
     print( len(lines))
     print( counts.get("ERROR", 0))
-    print( len(all_errors))
+    unique = set(msg for msg, count in all_errors if msg.strip())
+    print("Уникальных сообщений ERROR:", len(unique))
 
     report_errors = all_errors[:5]            
     with open("report.txt", "w", encoding="utf-8") as f:

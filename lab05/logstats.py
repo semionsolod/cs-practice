@@ -1,17 +1,22 @@
 def parse_event(line):
-    parts = line.strip().split(maxsplit=2)
+    parts = line.split(maxsplit=2)
     if len(parts) != 3:
-        raise ValueError(f"Неверный формат строки: {line}")
-    time, level, message = parts
-    return {'time': time, 'level': level, 'message': message}
+        raise ValueError(f"Неверный формат: {line}")
+
+    return {
+        'time': parts[0],
+        'level': parts[1],
+        'message': parts[2]
+    }
 def count_levels(lines):
     counts = {}
     for line in lines:
         try:
-            level = parse_event(line)['level']
-        except ValueError:
-            level = 'BROKEN'
-        counts[level] = counts.get(level, 0) + 1
+            event = parse_event(line)
+            level = event['level']
+            counts[level] = counts.get(level, 0) + 1
+        except ValueError:  
+            counts['BROKEN'] = counts.get('BROKEN', 0) + 1
     return counts
 def top_errors(lines, n):
     errors = {}
