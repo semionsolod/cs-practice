@@ -13,3 +13,14 @@ def count_levels(lines):
             level = 'BROKEN'
         counts[level] = counts.get(level, 0) + 1
     return counts
+def top_errors(lines, n):
+    errors = {}
+    for line in lines:
+        try:
+            event = parse_event(line)
+        except ValueError:
+            continue
+        if event['level'] == 'ERROR':
+            msg = event['message']
+            errors[msg] = errors.get(msg, 0) + 1
+    return sorted(errors.items(), key=lambda item: (-item[1], item[0]))[:n]
