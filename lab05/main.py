@@ -5,13 +5,12 @@ def main():
         lines = f.readlines()
 
     counts = count_levels(lines)
-    all_errors = top_errors(lines, n=10**9)   # получаем ВСЕ уникальные ошибки
+    all_errors = top_errors(lines, n=10**9)   
+    print( len(lines))
+    print( counts.get("ERROR", 0))
+    print( len(all_errors))
 
-    print("Строк всего:", len(lines))
-    print("Уровней ERROR:", counts.get("ERROR", 0))
-    print("Уникальных сообщений ERROR:", len(all_errors))
-
-    report_errors = all_errors[:5]            # в отчёт — 5 самых частых
+    report_errors = all_errors[:5]            
     with open("report.txt", "w", encoding="utf-8") as f:
         f.write(format_report(counts, report_errors))
 
