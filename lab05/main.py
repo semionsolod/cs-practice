@@ -10,7 +10,7 @@ def main():
     print( len(lines))
     print( counts.get("ERROR", 0))
     unique = set(msg for msg, count in all_errors if msg.strip())
-    print("Уникальных сообщений ERROR:", len(unique))
+    print(len(unique))
 
     report_errors = all_errors[:5]            
     with open("report.txt", "w", encoding="utf-8") as f:
