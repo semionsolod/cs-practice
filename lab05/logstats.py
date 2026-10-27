@@ -10,6 +10,8 @@ def count_levels(lines):
     res = {}
     for line in lines:
         try:
+            if not line.strip():
+                continue
             ev = parse_event(line)
             lvl = ev["level"]
             if not lvl or lvl not in VALID_LEVELS:
