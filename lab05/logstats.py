@@ -1,7 +1,11 @@
 def parse_event(line):
     parts = line.strip().split(maxsplit=2)
-    if len(parts) < 3:
-        raise ValueError("bad line")
+    if len(parts) == 0:
+        raise ValueError("empty line")
+    if len(parts) == 1:
+        raise ValueError("only time")
+    if len(parts) == 2:
+        return {"time": parts[0], "level": parts[1], "message": ""}
     return {"time": parts[0], "level": parts[1], "message": parts[2]}
 
 def count_levels(lines):
