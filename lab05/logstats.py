@@ -1,3 +1,5 @@
+VALID_LEVELS = {"DEBUG", "INFO", "WARNING", "ERROR"}
+
 def parse_event(line):
     parts = line.strip().split(maxsplit=2)
     if len(parts) < 3:
@@ -9,6 +11,8 @@ def count_levels(lines):
     for line in lines:
         try:
             lvl = parse_event(line)["level"]
+            if lvl not in VALID_LEVELS:
+                lvl = "BROKEN"
         except (ValueError, KeyError, TypeError):
             lvl = "BROKEN"
         res[lvl] = res.get(lvl, 0) + 1

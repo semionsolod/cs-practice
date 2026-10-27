@@ -1,6 +1,8 @@
 import sys
 import logstats
 
+VALID_LEVELS = {"DEBUG", "INFO", "WARNING", "ERROR"}
+
 def main():
     name = sys.argv[1] if len(sys.argv) > 1 else input().strip()
 
@@ -12,10 +14,14 @@ def main():
         for line in f:
             total += 1
             try:
-                if logstats.parse_event(line)["level"] == "ERROR":
+                ev = logstats.parse_event(line)
+                if ev["level"] == "ERROR":
                     err += 1
+                elif ev["level"] not in VALID_LEVELS:
+                    bad += 1
             except (ValueError, KeyError, TypeError):
                 bad += 1
+
 
     print(total)
     print(err)
