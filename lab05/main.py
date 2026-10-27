@@ -14,7 +14,7 @@ def main():
             try:
                 if logstats.parse_event(line)["level"] == "ERROR":
                     err += 1
-            except (ValueError, KeyError):
+            except (ValueError, KeyError, TypeError):
                 bad += 1
 
     print(total)
