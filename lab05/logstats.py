@@ -10,7 +10,8 @@ def count_levels(lines):
     res = {}
     for line in lines:
         try:
-            lvl = parse_event(line)["level"]
+            ev = parse_event(line)
+            lvl = ev["level"]
             if lvl not in VALID_LEVELS:
                 lvl = "BROKEN"
         except (ValueError, KeyError, TypeError):
