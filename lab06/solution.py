@@ -14,3 +14,13 @@ def deepest_path(paths: list[str]) -> str:
         return ""
     return min(paths, key=lambda p: (-p.count("/"), p))
 
+def human_size(n_bytes: int) -> str:
+    names = ["Б", "КБ", "МБ", "ГБ", "ТБ"]
+    size = n_bytes
+    i = 0
+    while size >= 1024 and i < len(names) - 1:
+        size /= 1024
+        i += 1
+    if i == 0:
+        return f"{n_bytes} Б"
+    return f"{size:.1f} {names[i]}"
