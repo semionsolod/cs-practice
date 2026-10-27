@@ -9,7 +9,7 @@ def count_levels(lines):
     for line in lines:
         try:
             lvl = parse_event(line)["level"]
-        except ValueError:
+        except (ValueError, KeyError):
             lvl = "BROKEN"
         res[lvl] = res.get(lvl, 0) + 1
     return res
@@ -22,7 +22,7 @@ def top_errors(lines, n):
             if ev["level"] == "ERROR":
                 msg = ev["message"]
                 res[msg] = res.get(msg, 0) + 1
-        except ValueError:
+        except (ValueError, KeyError):
             pass
     
     sorted_list = sorted(res.items(), key=lambda x: (-x[1], x[0]))
@@ -38,6 +38,6 @@ def format_report(counts, errors):
     out.append("")
     out.append("Частые ошибки:")
     for msg, cnt in errors:
-        out.append(f"- {msg} - {cnt}")
+        out.append(f"- {msg} — {cnt}")
         
-    return "\n".join(out)
+    return "\n".join(out)+"/n"
