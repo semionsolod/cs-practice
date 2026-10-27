@@ -1,20 +1,35 @@
 import sys
-from logstats import count_levels, top_errors, format_report
+import logstats
 
 def main():
-    with open("events.log", encoding="utf-8") as f:
-        lines = f.readlines()
+    name = sys.argv[1] if len(sys.argv) > 1 else input().strip()
 
-    counts = count_levels(lines)
-    all_errors = top_errors(lines, n=10**9)   
-    print( len(lines))
-    print( counts.get("ERROR", 0))
-    unique = set(msg for msg, count in all_errors if msg.strip())
-    print(len(unique))
+    total = 0
+    err = 0
+    bad = 0
 
-    report_errors = all_errors[:5]            
+    with open(name, "r", encoding="utf-8") as f:
+        for line in f:
+            total += 1
+            try:
+                if logstats.parse_event(line)["level"] == "ERROR":
+                    err += 1
+            except ValueError:
+                bad += 1
+
+    print(total)
+    print(err)
+    print(bad)
+
+    with open(name, "r", encoding="utf-8") as f:
+        data = f.readlines()
+
+    c = logstats.count_levels(data)
+    t = logstats.top_errors(data, 3)
+    txt = logstats.format_report(c, t)
+
     with open("report.txt", "w", encoding="utf-8") as f:
-        f.write(format_report(counts, report_errors))
+        f.write(txt)
 
 if __name__ == "__main__":
     main()

@@ -1,43 +1,43 @@
 def parse_event(line):
-    parts = line.split(maxsplit=2)
-    if len(parts) != 3:
-        raise ValueError(f"Неверный формат: {line}")
+    parts = line.strip().split(maxsplit=2)
+    if len(parts) < 3:
+        raise ValueError("bad line")
+    return {"time": parts[0], "level": parts[1], "message": parts[2]}
 
-    return {
-        'time': parts[0],
-        'level': parts[1],
-        'message': parts[2]
-    }
 def count_levels(lines):
-    counts = {}
+    res = {}
     for line in lines:
         try:
-            event = parse_event(line)
-            level = event['level']
-            counts[level] = counts.get(level, 0) + 1
-        except ValueError:  
-            counts['BROKEN'] = counts.get('BROKEN', 0) + 1
-    return counts
-def top_errors(lines, n):
-    errors = {}
-    for line in lines:
-        try:
-            event = parse_event(line)
+            lvl = parse_event(line)["level"]
         except ValueError:
-            continue
-        if event['level'] == 'ERROR':
-            msg = event['message']
-            errors[msg] = errors.get(msg, 0) + 1
-    return sorted(errors.items(), key=lambda item: (-item[1], item[0]))[:n]
+            lvl = "BROKEN"
+        res[lvl] = res.get(lvl, 0) + 1
+    return res
+
+def top_errors(lines, n):
+    res = {}
+    for line in lines:
+        try:
+            ev = parse_event(line)
+            if ev["level"] == "ERROR":
+                msg = ev["message"]
+                res[msg] = res.get(msg, 0) + 1
+        except ValueError:
+            pass
+    
+    sorted_list = sorted(res.items(), key=lambda x: (-x[1], x[0]))
+    return sorted_list[:n]
+
 def format_report(counts, errors):
-    lines = ["Отчёт по журналу:"]
-    for level in sorted(counts):
-        lines.append(f"{level}: {counts[level]}")
-    lines.append("")
-    lines.append("Частые ошибки:")
-    if not errors:
-        lines.append("-")      
-    else:
-        for msg, cnt in errors:
-            lines.append(f"- {msg} — {cnt}")
-    return "\n".join(lines) + "\n"
+    out = []
+    out.append("Отчёт по журналу")
+    out.append("")
+    for k in sorted(counts.keys()):
+        out.append(f"{k}: {counts[k]}")
+    
+    out.append("")
+    out.append("Частые ошибки:")
+    for msg, cnt in errors:
+        out.append(f"- {msg} - {cnt}")
+        
+    return "\n".join(out)
