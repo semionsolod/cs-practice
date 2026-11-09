@@ -84,3 +84,32 @@ def ekranirovat_stroku(text):
         else:
             res += symb
     return '"' + res + '"'
+
+def perevod_v_json(value, level):
+    if value is None:
+        return "null"
+    if value is True:
+        return "true"
+    if value is False:
+        return "false"
+    if isinstance(value, str):
+        return ekranirovat_stroku(value)
+    if isinstance(value, int) or isinstance(value, float):
+        return str(value)
+    if isinstance(value, list) or isinstance(value, tuple):
+        if len(value) == 0:
+            return "[]"
+        parts = []
+        for element in value:
+            parts.append("  " * (level + 1) + perevod_v_json(element, level + 1))
+        return "[\n" + ",\n".join(parts) + "\n" + "  " * level + "]"
+    if isinstance(value, dict):
+        if len(value) == 0:
+            return "{}"
+        parts = []
+        for key in sorted(value):
+            stroka = "  " * (level + 1) + ekranirovat_stroku(str(key)) + ": "
+            stroka += perevod_v_json(value[key], level + 1)
+            parts.append(stroka)
+        return "{\n" + ",\n".join(parts) + "\n" + "  " * level + "}"
+    raise TypeError("Нельзя записать в JSON: " + type(value).__name__)
