@@ -51,3 +51,13 @@ def parse_settings(stroki):
             settings[key] = preobrazovat_znachenie(value)
             tekushiy_spisok = None
     return settings
+
+def merge_by_key(records, sprav, key):
+    res = []
+    for rec in records:
+        dannye = sprav.get(rec.get(key), {})
+        new_record = {}
+        new_record.update(dannye)
+        new_record.update(rec)
+        res.append(new_record)
+    return res
