@@ -61,3 +61,26 @@ def merge_by_key(records, sprav, key):
         new_record.update(rec)
         res.append(new_record)
     return res
+
+def ekranirovat_stroku(text):
+    res = ""
+    for symb in text:
+        if symb == '"':
+            res += '\\"'
+        elif symb == "\\":
+            res += "\\\\"
+        elif symb == "\n":
+            res += "\\n"
+        elif symb == "\r":
+            res += "\\r"
+        elif symb == "\t":
+            res += "\\t"
+        elif symb == "\b":
+            res += "\\b"
+        elif symb == "\f":
+            res += "\\f"
+        elif ord(symb) < 32:
+            res += "\\u" + format(ord(symb), "04x")
+        else:
+            res += symb
+    return '"' + res + '"'
