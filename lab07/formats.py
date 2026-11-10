@@ -37,7 +37,7 @@ def parse_settings(stroki):
     settings = {}
     tekushiy_spisok = None
     for stroka in stroki:
-        stroka = stroka.split("#")[0].strip()
+        stroka = stroka.split(" #")[0].strip()
         if stroka == "":
             continue
         if stroka == "-" or stroka.startswith("- "):
