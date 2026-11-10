@@ -113,3 +113,25 @@ def perevod_v_json(value, level):
             parts.append(stroka)
         return "{\n" + ",\n".join(parts) + "\n" + "  " * level + "}"
     raise TypeError("Нельзя записать в JSON: " + type(value).__name__)
+
+def records_to_json(records):
+    return perevod_v_json(records, 0)
+
+
+if __name__ == "__main__":
+    records = csv_to_records("id,город\n1,Азов\n2,Шахты")
+    print(records)
+    settings = parse_settings([
+        "# отчёт",
+        "title: Отчёт за март",
+        "decimals: 1",
+        "active: yes",
+        "columns:",
+        "  - город",
+        "  - цена",
+    ])
+    print(settings)
+    sprav = {"1": {"регион": "Ростовская"}}
+    itog = merge_by_key(records, sprav, "id")
+    print(itog)
+    print(records_to_json(itog))
