@@ -7,7 +7,9 @@ def csv_to_records(text):
     for stroka in stroki[1:]:
         if stroka.strip() == "":
             continue
-        znach = stroka.split(",")
+        znach = []
+        for kusok in stroka.split(","):
+            znach.append(kusok.strip())
         records.append(dict(zip(zaglav, znach)))
     return records
 
