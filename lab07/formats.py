@@ -3,7 +3,7 @@ def csv_to_records(text):
     records = []
     if len(stroki) == 0:
         return records
-    zaglav = stroki[0].split(",")
+    zaglav = [z.strip() for z in stroki[0].split(",")]
     for stroka in stroki[1:]:
         if stroka.strip() == "":
             continue
@@ -25,9 +25,9 @@ def preobrazovat_znachenie(text):
         bez_minus = text
     if bez_minus.isdecimal():
         return int(text)
-    parts = bez_minus.split(".")
+    parts = bez_minus.replace(",", ".").split(".")
     if len(parts) == 2 and parts[0].isdecimal() and parts[1].isdecimal():
-        return float(text)
+        return float(text.replace(",", "."))
     return text
 
 def parse_settings(stroki):
