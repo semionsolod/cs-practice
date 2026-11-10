@@ -54,9 +54,10 @@ def parse_settings(stroki):
             tekushiy_spisok = None
     return settings
 
-def merge_by_key(records, sprav, key):
+def merge_by_key(rows: list, extra: dict, key: str = "id"):
+    sprav = extra
     res = []
-    for rec in records:
+    for rec in rows:
         dannye = sprav.get(rec.get(key), {})
         new_record = {}
         new_record.update(dannye)
