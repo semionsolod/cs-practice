@@ -25,9 +25,9 @@ def preobrazovat_znachenie(text):
         bez_minus = text
     if bez_minus.isdecimal():
         return int(text)
-    parts = bez_minus.replace(",", ".").split(".")
+    parts = bez_minus.split(".")
     if len(parts) == 2 and parts[0].isdecimal() and parts[1].isdecimal():
-        return float(text.replace(",", "."))
+        return float(text)
     return text
 
 def parse_settings(stroki):
