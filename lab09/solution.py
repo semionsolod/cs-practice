@@ -35,4 +35,4 @@ def celsius_to_fahrenheit(values):
 
     return f.tolist()
 
-    return arr.tolist()
+    return f.tolist()
