@@ -28,6 +28,7 @@ def cap_above(values, limit):
 
     r[r > limit] = limit
 
+    return r.tolist()
 
 def celsius_to_fahrenheit(values):
     c = np.array(values, dtype=float)
@@ -35,4 +36,4 @@ def celsius_to_fahrenheit(values):
 
     return f.tolist()
 
-    return f.tolist()
+    
